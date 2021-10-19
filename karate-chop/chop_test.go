@@ -12,6 +12,7 @@ func TestChop(t *testing.T) {
 		desiredOutput int
 	}{
 		{1, []int{}, -1},
+		{1, []int{1, 2, 3}, 0},
 	}
 
 	for _, testCase := range cases {

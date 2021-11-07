@@ -33,3 +33,21 @@ func TestChop(t *testing.T) {
 		})
 	}
 }
+
+func TestChopPermutationsForSize1000Slice(t *testing.T) {
+	// Make slice of numbers 1 to 1000.
+	slice := make([]int, 1000)
+	for i := 0; i < 1000; i++ {
+		slice[i] = i+1
+	}
+
+	// Assert that the correct index is returned by Chop for numbers 1 through 1000. 
+	for i := 0; i < 1000; i++ {
+		t.Run(fmt.Sprintf("position_%d", i), func (t *testing.T) {
+			result := Chop(i+1, slice)
+			if result != i {
+				t.Errorf("got %d, want %d", result, i)
+			}
+		})
+	}
+}

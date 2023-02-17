@@ -11,6 +11,20 @@ func TestReturnsEmptyListForInvalidStartEnd(t *testing.T) {
 	assert.Empty(t, result)
 }
 
+ func TestSolveCatToCot(t *testing.T) {
+ 	result := Solve("cat", "cot")
+ 	assert.Equal(t, result[0], "cat")
+ 	assert.Equal(t, result[1], "cot")
+ }
+
+func TestSolveCatToDog(t *testing.T) {
+	result := Solve("cat", "dog")
+	assert.Equal(t, result[0], "cat")
+	assert.Equal(t, 1, diffOfWords("cat", result[1]))
+	assert.Equal(t, 1, diffOfWords("dog", result[2]))
+	assert.Equal(t, result[3], "dog")
+}
+
 func TestVisitRow(t *testing.T) {
 	rows := [][]string{
 		{ "cat" },

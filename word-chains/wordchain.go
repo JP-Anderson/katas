@@ -1,6 +1,7 @@
 package wordchain
 
 import (
+	"fmt"
 	"katas/csv"	
 )
 
@@ -21,6 +22,9 @@ func Solve(start, end string) []string {
 				return []string{ start, oneDiffs, end }
 			}
 		}
+	}
+	for _, diffs := range v.diffCharCountToWords {
+		fmt.Println(diffs)
 	}
 	return nil
 }

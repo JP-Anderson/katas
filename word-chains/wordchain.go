@@ -26,13 +26,18 @@ func newVisitor(startWord string) *wordChainSolverVisitor {
 	}
 }
 
-func (a *wordChainSolverVisitor) VisitRow(row []string) {
+func (v *wordChainSolverVisitor) VisitRow(row []string) {
 	if len(row) != 1 {
 		return
 	}
-	if len(row[0]) != a.wordLength {
+	if len(row[0]) != v.wordLength {
 		return
-	} 
+	}
+	diff := diffOfWords(row[0], v.start)
+	if diff == 0 {
+		return
+	}
+	v.diffCharCountToWords[diff] = append(v.diffCharCountToWords[diff], row[0])
 }
 
 func diffOfWords(s1, s2 string) int {

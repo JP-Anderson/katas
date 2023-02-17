@@ -28,10 +28,10 @@ func TestSolveBatToBum(t *testing.T) {
 }
 
 func TestSolve5LetterWords(t *testing.T) {
-	result := Solve("carve", "halve")
-	assert.Len(t, result, 3)
+	result := Solve("chase", "chast")
+	assert.Equal(t, []string{ "chase", "chast" }, result)		
 
-	result = Solve("prose", "prank")
+	result = Solve("carve", "halve")
 	assert.Len(t, result, 3)
 }
 

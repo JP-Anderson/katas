@@ -4,7 +4,35 @@ func Solve(start, end string) []string {
 	if len(start) != len(end) {
 		return []string{}
 	}
+	
 	return nil
+}
+
+type wordChainSolverVisitor struct {
+	wordLength int
+	start string
+	diffCharCountToWords map[int][]string
+}
+
+func newVisitor(startWord string) *wordChainSolverVisitor {
+	m := make(map[int][]string, len(startWord))
+	for i := 1; i <= len(startWord); i++ {
+		m[i] = []string{}
+	}
+	return &wordChainSolverVisitor{
+		wordLength: len(startWord),
+		start: startWord,
+		diffCharCountToWords: m,
+	}
+}
+
+func (a *wordChainSolverVisitor) VisitRow(row []string) {
+	if len(row) != 1 {
+		return
+	}
+	if len(row[0]) != a.wordLength {
+		return
+	} 
 }
 
 func diffOfWords(s1, s2 string) int {

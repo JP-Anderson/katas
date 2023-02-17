@@ -11,24 +11,34 @@ func TestReturnsEmptyListForInvalidStartEnd(t *testing.T) {
 	assert.Empty(t, result)
 }
 
- func TestSolveCatToCot(t *testing.T) {
+func TestSolveCatToCot(t *testing.T) {
 	result := Solve("cat", "cot")
- 	assert.Equal(t, result[0], "cat")
+	assert.Len(t, result, 2) 	
+	assert.Equal(t, result[0], "cat")
  	assert.Equal(t, result[1], "cot")
 }
 
+func TestSolveBatToBum(t *testing.T) {
+	result := Solve("bat", "bum")
+	assert.Len(t, result, 3)
+	assert.Equal(t, result[0], "bat")
+	assert.Equal(t, 1, diffOfWords("bat", result[1]))
+	assert.Equal(t, 1, diffOfWords("bum", result[1]))
+	assert.Equal(t, result[2], "bum")
+}
+
 func TestSolveCatToCog(t *testing.T) {
-	t.Skip("skipping this while refactoring visit row methods as it fails but is slow to run")
 	result := Solve("cat", "cog")
+	assert.Len(t, result, 3)
 	assert.Equal(t, result[0], "cat")
 	assert.Equal(t, 1, diffOfWords("cat", result[1]))
 	assert.Equal(t, 1, diffOfWords("cog", result[1]))
-	assert.Equal(t, result[2], "cog")	
+	assert.Equal(t, result[2], "cog")
 }
 
 func TestSolveCatToDog(t *testing.T) {
-	t.Skip("skipping this while refactoring visit row methods as it fails but is slow to run")
 	result := Solve("cat", "dog")
+	assert.Len(t, result, 4)	
 	assert.Equal(t, result[0], "cat")
 	assert.Equal(t, 1, diffOfWords("cat", result[1]))
 	assert.Equal(t, 1, diffOfWords("dog", result[2]))

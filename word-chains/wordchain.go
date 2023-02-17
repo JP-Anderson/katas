@@ -1,7 +1,6 @@
 package wordchain
 
 import (
-	"fmt"
 	"katas/csv"	
 )
 
@@ -16,8 +15,12 @@ func Solve(start, end string) []string {
 	v := newVisitor(start, end)
 	r := csv.NewReader(v)
 	r.VisitRows("../anagrams/wordlist.txt")
-	for _, x := range v.diffCharCountToWords {	
-		fmt.Println(x)
+	if diff == 2 {
+		for _, oneDiffs := range v.diffCharCountToWords[1] {
+			if diffOfWords(oneDiffs, end) == 1 {
+				return []string{ start, oneDiffs, end }
+			}
+		}
 	}
 	return nil
 }

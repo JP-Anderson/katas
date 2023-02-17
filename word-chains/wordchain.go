@@ -13,23 +13,23 @@ func Solve(start, end string) []string {
 	if diff == 1 {
 		return []string{ start, end }
 	}
-	v := newVisitor(start)
+	v := newVisitor(start, end)
 	r := csv.NewReader(v)
 	r.VisitRows("../anagrams/wordlist.txt")
-	for _, x := range v.diffCharCountToWords {
-		
+	for _, x := range v.diffCharCountToWords {	
 		fmt.Println(x)
-	}	
+	}
 	return nil
 }
 
 type wordChainSolverVisitor struct {
 	wordLength int
-	start string
+	start, end string
+	wordDiff int
 	diffCharCountToWords map[int][]string
 }
 
-func newVisitor(startWord string) *wordChainSolverVisitor {
+func newVisitor(startWord, endWord string) *wordChainSolverVisitor {
 	m := make(map[int][]string, len(startWord))
 	for i := 1; i <= len(startWord); i++ {
 		m[i] = []string{}
@@ -37,6 +37,8 @@ func newVisitor(startWord string) *wordChainSolverVisitor {
 	return &wordChainSolverVisitor{
 		wordLength: len(startWord),
 		start: startWord,
+		end: endWord,
+		wordDiff: diffOfWords(startWord, endWord),
 		diffCharCountToWords: m,
 	}
 }
@@ -48,11 +50,18 @@ func (v *wordChainSolverVisitor) VisitRow(row []string) {
 	if len(row[0]) != v.wordLength {
 		return
 	}
-	diff := diffOfWords(row[0], v.start)
-	if diff == 0 {
+	diffS := diffOfWords(row[0], v.start)
+	diffE := diffOfWords(row[0], v.end)
+	if diffS == 0 {
 		return
 	}
-	v.diffCharCountToWords[diff] = append(v.diffCharCountToWords[diff], row[0])
+	if diffE == 0 {
+		return
+	}
+	if diffE >= v.wordDiff {
+		return
+	}
+	v.diffCharCountToWords[diffS] = append(v.diffCharCountToWords[diffS], row[0])
 }
 
 func diffOfWords(s1, s2 string) int {

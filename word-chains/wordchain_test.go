@@ -20,11 +20,21 @@ func TestSolveCatToCot(t *testing.T) {
 
 func TestSolveBatToBum(t *testing.T) {
 	result := Solve("bat", "bum")
-	assert.Len(t, result, 3)
-	assert.Equal(t, result[0], "bat")
-	assert.Equal(t, 1, diffOfWords("bat", result[1]))
-	assert.Equal(t, 1, diffOfWords("bum", result[1]))
-	assert.Equal(t, result[2], "bum")
+	assert.Equal(t, []string{ "bat", "bam", "bum" }, result)
+}
+
+func TestSolve5LetterWords(t *testing.T) {
+	// 1 Diff
+	result := Solve("chase", "chast")
+	assert.Equal(t, []string{ "chase", "chast" }, result)		
+	
+	// 2 Diffs
+	result = Solve("carve", "halve")
+	assert.Equal(t, []string{"carve", "calve", "halve"}, result)
+
+	// 3 Diffs
+	result = Solve("crank", "doink")
+	assert.Equal(t, []string{"crank", "drank", "drink", "doink"}, result)
 }
 
 func TestSolveCatToCog(t *testing.T) {
@@ -33,16 +43,12 @@ func TestSolveCatToCog(t *testing.T) {
 	assert.Equal(t, result[0], "cat")
 	assert.Equal(t, 1, diffOfWords("cat", result[1]))
 	assert.Equal(t, 1, diffOfWords("cog", result[1]))
-	assert.Equal(t, result[2], "cog")
+	assert.Equal(t, []string{ "cat", "cot", "cog" }, result)
 }
 
 func TestSolveCatToDog(t *testing.T) {
 	result := Solve("cat", "dog")
-	assert.Len(t, result, 4)	
-	assert.Equal(t, result[0], "cat")
-	assert.Equal(t, 1, diffOfWords("cat", result[1]))
-	assert.Equal(t, 1, diffOfWords("dog", result[2]))
-	assert.Equal(t, result[3], "dog")
+	assert.Equal(t, []string{ "cat", "cot", "cog", "dog" }, result)
 }
 
 func TestVisitRow(t *testing.T) {

@@ -1,6 +1,7 @@
 package wordchain
 
 import (
+	"fmt"
 	"katas/csv"	
 )
 
@@ -20,6 +21,20 @@ func Solve(start, end string) []string {
 			if diffOfWords(oneDiffs, end) == 1 {
 				return []string{ start, oneDiffs, end }
 			}
+		}
+	}
+	if diff == 3 {
+		for _, oneDiffs := range v.diffCharCountToWords[1] {
+			if diffOfWords(oneDiffs, end) < 3 {
+				for _, twoDiffs := range v.diffCharCountToWords[2] {
+					if diffOfWords(twoDiffs, end) == 1 {
+						return []string{ start, oneDiffs, twoDiffs, end }
+					}
+				}
+			}
+		}
+		for _, diffs := range v.diffCharCountToWords {
+			fmt.Println(diffs)
 		}
 	}
 	return nil

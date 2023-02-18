@@ -37,6 +37,21 @@ func Solve(start, end string) []string {
 			fmt.Println(diffs)
 		}
 	}
+	if diff == 4 {
+		for _, ones := range v.diffCharCountToWords[1] {
+			if diffOfWords(ones, end) < 4 {
+				for _, twos := range v.diffCharCountToWords[2] {
+					if diffOfWords(twos, end) < 3 {
+						for _, threes := range v.diffCharCountToWords[3] {
+							if diffOfWords(threes, end) == 1 {
+								return []string{ start, ones, twos, threes, end}
+							}
+						}
+					}
+				}	
+			}
+		}
+	}
 	return nil
 }
 

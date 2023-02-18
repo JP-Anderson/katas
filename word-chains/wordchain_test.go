@@ -9,6 +9,9 @@ import (
 func TestReturnsEmptyListForInvalidStartEnd(t *testing.T) {
 	result := Solve("cat", "sheep")
 	assert.Empty(t, result)
+
+	result = Solve("harries", "markets")
+	assert.Empty(t, result)
 }
 
 func TestSolveCatToCot(t *testing.T) {
@@ -35,6 +38,10 @@ func TestSolve5LetterWords(t *testing.T) {
 	// 3 Diffs
 	result = Solve("crank", "doink")
 	assert.Equal(t, []string{"crank", "drank", "drink", "doink"}, result)
+
+	// 4 Diffs
+	result = Solve("curve", "salvo")
+	assert.Equal(t, []string{"curve", "carve", "calve", "salve", "salvo"}, result)
 }
 
 func TestSolveCatToCog(t *testing.T) {

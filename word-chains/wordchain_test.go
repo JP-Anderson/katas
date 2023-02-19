@@ -14,6 +14,14 @@ func TestReturnsEmptyListForInvalidStartEnd(t *testing.T) {
 	assert.Empty(t, result)
 }
 
+func TestSameWordChainBothWays(t *testing.T) {
+	result := Solve("gold", "lead")
+	result2 := Solve("lead", "gold")
+	for i := 0; i < 4; i++ {
+		assert.Equal(t, result[i], result2[3-i])
+	}
+}
+
 func TestSolveCatToCot(t *testing.T) {
 	result := Solve("cat", "cot")
 	assert.Len(t, result, 2) 	

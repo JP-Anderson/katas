@@ -34,7 +34,7 @@ func TestSolveBatToBum(t *testing.T) {
 	assert.Equal(t, []string{ "bat", "bam", "bum" }, result)
 }
 
-func TestSolve5LetterWords(t *testing.T) {
+func TestSolveChainsOfLength(t *testing.T) {
 	// 1 Diff
 	result := Solve("chase", "chast")
 	assert.Equal(t, []string{ "chase", "chast" }, result)		
@@ -50,6 +50,14 @@ func TestSolve5LetterWords(t *testing.T) {
 	// 4 Diffs
 	result = Solve("curve", "salvo")
 	assert.Equal(t, []string{"curve", "carve", "calve", "salve", "salvo"}, result)
+	
+	// 5 Diffs
+	result = Solve("table", "corps")
+	assert.Equal(t, []string{"table", "cable", "carle", "carls", "carps", "corps"}, result)
+	
+	result = Solve("atlases", "unlaced")
+	assert.Equal(t, []string{"atlases", "anlases", "anlaces", "unlaces", "unlaced"}, result)
+	
 }
 
 func TestSolveCatToCog(t *testing.T) {

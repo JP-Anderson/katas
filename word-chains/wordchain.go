@@ -1,7 +1,6 @@
 package wordchain
 
 import (
-	"fmt"
 	"katas/csv"	
 )
 
@@ -16,39 +15,25 @@ func Solve(start, end string) []string {
 	v := newVisitor(start, end)
 	r := csv.NewReader(v)
 	r.VisitRows("../anagrams/wordlist.txt")
-	if diff == 2 {
-		for _, oneDiffs := range v.diffCharCountToWords[1] {
-			if diffOfWords(oneDiffs, end) == 1 {
-				return []string{ start, oneDiffs, end }
-			}
-		}
+	chain := make([]string, diff+1)
+	chain[0] = start
+	chain[len(chain)-1] = end
+	return tryNextChain(chain, start, end, 0, v.diffCharCountToWords)
+}
+
+func tryNextChain(currentChain []string, start, end string, currentIx int, diffToWordsMap map[int][]string) []string {
+	nextWords := diffToWordsMap[currentIx+1]
+	diff := len(currentChain)-1
+	if currentIx == len(currentChain)-2 {
+		return currentChain
 	}
-	if diff == 3 {
-		for _, oneDiffs := range v.diffCharCountToWords[1] {
-			if diffOfWords(oneDiffs, end) < 3 {
-				for _, twoDiffs := range v.diffCharCountToWords[2] {
-					if diffOfWords(twoDiffs, end) == 1 {
-						return []string{ start, oneDiffs, twoDiffs, end }
-					}
-				}
-			}
-		}
-		for _, diffs := range v.diffCharCountToWords {
-			fmt.Println(diffs)
-		}
-	}
-	if diff == 4 {
-		for _, ones := range v.diffCharCountToWords[1] {
-			if diffOfWords(ones, end) < 4 {
-				for _, twos := range v.diffCharCountToWords[2] {
-					if diffOfWords(twos, end) < 3 {
-						for _, threes := range v.diffCharCountToWords[3] {
-							if diffOfWords(threes, end) == 1 {
-								return []string{ start, ones, twos, threes, end}
-							}
-						}
-					}
-				}	
+	for _, w := range nextWords {
+		if diffOfWords(w, end) < diff-currentIx {
+			currentIx++
+			currentChain[currentIx] = w
+			res := tryNextChain(currentChain, start, end, currentIx, diffToWordsMap)
+			if res != nil {
+				return res
 			}
 		}
 	}

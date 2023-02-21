@@ -22,6 +22,11 @@ func TestSameWordChainBothWays(t *testing.T) {
 	}
 }
 
+func TestSolveRubyToCode(t *testing.T) {
+	result := Solve("ruby", "code")
+	assert.Equal(t, []string{ "ruby", "rubs", "robs", "rods", "rode", "code" },  result)
+}
+
 func TestSolveCatToCot(t *testing.T) {
 	result := Solve("cat", "cot")
 	assert.Len(t, result, 2) 	

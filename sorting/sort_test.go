@@ -11,6 +11,19 @@ func TestSort(t *testing.T) {
 	assert.Equal(t, []int{1, 2, 3, 4}, Sort(input))
 }
 
+func TestSort100000(t *testing.T) {
+	input := make([]int, 100000)
+	for i := 0; i < 100000; i++ {
+		input[i] = 100000-i
+	}
+	sorted := Sort(input)
+	prev := -1
+	for _, n := range sorted {
+		assert.True(t, prev<n)
+		prev = n
+	}
+}
+
 func TestCountArray(t *testing.T) {
 	sortMap := CounterDictionaryForRange(0, 10)
 	assert.Len(t, sortMap.counts, 10)

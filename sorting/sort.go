@@ -3,6 +3,7 @@ package sorting
 import (
 	"fmt"
 	"math"
+	"strings"
 )
 
 type sortedMap struct {
@@ -61,18 +62,44 @@ func Sort(n []int) []int {
 		min = int(math.Min(float64(num), float64(min)))
 		max = int(math.Max(float64(num), float64(max)))
 	}
-	fmt.Println(max, min)
 	d := CounterDictionaryForRange(min, max-min+1)
 	for _, num := range n {
 		d.Count(num)
 	}
 	sorted := make([]int, len(n))
-	i := 0
-	for _, el := range d.counts {
-		for j := 0; j < el.count; j++ {
-			sorted[i] = el.value
-			i++
-		}
+	c := make(chan int, 1)
+	go inOrder(d, c)
+	for i, _ := range n {
+		sorted[i] = <- c	
 	}
 	return sorted
 }
+
+func SortStr(s string) string {
+	min := math.MaxInt64
+	max := math.MinInt64
+	for _, c := range s {
+		min = int(math.Min(float64(c), float64(min)))
+		max = int(math.Max(float64(c), float64(max)))
+	}
+	d := CounterDictionaryForRange(min, max-min+1)
+	for _, c := range s {
+		d.Count(int(c))
+	}
+	var sb strings.Builder
+	c := make(chan int, 1)
+	go inOrder(d, c)
+	for _ = range s {
+		sb.WriteRune(rune( <- c))
+	}
+	return sb.String()
+}
+
+func inOrder(countMap *sortedMap, out chan<- int) {
+	for _, el := range countMap.counts {
+		for i := 0; i < el.count; i++ {
+			out <- el.value
+		}
+	}
+}
+

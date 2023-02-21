@@ -6,6 +6,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestSortChars(t *testing.T) {
+	input := "the quick brown fox jumps over the lazy dog"
+	assert.Equal(t, "        abcdeeefghhijklmnoooopqrrsttuuvwxyz", SortStr(input))
+}
+
 func TestSort(t *testing.T) {
 	input := []int{ 4, 3, 2, 1 }
 	assert.Equal(t, []int{1, 2, 3, 4}, Sort(input))

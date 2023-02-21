@@ -7,14 +7,24 @@ import (
 
 type sortedMap struct {
 	counts []countArrayElement
-	indexes map[int]int
+	start, rnge int
+}
+
+func index(n, start, rnge int) (int, error) {
+	if n < start {
+		return -1, fmt.Errorf("N %d is less than start %d", n, start)
+	}
+	if n >= start+rnge {
+		return -1, fmt.Errorf("N %d exceeds range end %d", n, start+rnge)
+	}
+	return n-start, nil
 }
 
 func (s *sortedMap) Count(n int) error {
-	var ix int
-	var ok bool
-	if ix, ok = s.indexes[n]; !ok {
-		return fmt.Errorf("n not in range")
+	ix, err := index(n, s.start, s.rnge)
+	if err != nil {
+		fmt.Println(err)	
+		return err
 	}
 	old := s.counts[ix]
 	s.counts[ix] = countArrayElement{
@@ -31,17 +41,16 @@ type countArrayElement struct {
 
 func CounterDictionaryForRange(start, length int) *sortedMap {
 	arr := make([]countArrayElement, length)
-	index := make(map[int]int, length)
 	for i := 0; i < length; i++ {
 		arr[i] = countArrayElement{
 			value: start+i,
 			count: 0,
 		}
-		index[start+i] = i
 	}
 	return &sortedMap{
 		counts: arr,
-		indexes: index,
+		start: start,
+		rnge: length,
 	}
 }
 

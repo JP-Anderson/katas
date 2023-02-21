@@ -24,6 +24,50 @@ func TestSort100000(t *testing.T) {
 	}
 }
 
+func TestIndex(t *testing.T) {
+	// boundary
+	ix, err := index(0, 0, 10)
+	assert.Equal(t, 0, ix)
+
+	ix, err = index(1,0,10)
+	assert.Equal(t, 1, ix)
+	assert.Nil(t, err)
+
+	ix, err = index(9,0,10)
+	assert.Equal(t, 9, ix)
+	assert.Nil(t, err)
+
+	ix, err = index(-25, -25, 10)
+	assert.Equal(t, 0, ix)
+	assert.Nil(t, err)
+
+	ix, err = index(-23, -25, 10)
+	assert.Equal(t, 2, ix)
+	assert.Nil(t, err)
+
+	ix, err = index(-16, -25, 10)
+	assert.Equal(t, 9, ix)
+	assert.Nil(t, err)
+}
+
+func TestIndexErrors(t *testing.T) {
+	ix, err := index(-1,0,10)
+	assert.Equal(t, -1, ix)
+	assert.NotNil(t, err)
+
+	ix, err = index(10, 0, 10)
+        assert.Equal(t, -1, ix)
+        assert.NotNil(t, err)
+
+	ix, err = index(-26, -25, 10)
+	assert.Equal(t, -1, ix)
+	assert.NotNil(t, err)
+	
+	ix, err = index(-15, -25, 10)
+	assert.Equal(t, -1, ix)
+	assert.NotNil(t, err)
+}
+
 func TestCountArray(t *testing.T) {
 	sortMap := CounterDictionaryForRange(0, 10)
 	assert.Len(t, sortMap.counts, 10)
